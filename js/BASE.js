@@ -49,14 +49,12 @@
 		}; 
 
 	function Rectangle2D(x, y, width, height, createFromTopLeft) { 
-		this.width = (width === undefined) ? 0 : width; 
-		this.height = (height === undefined) ? this.width : height; 
+		this.width = (width === undefined) ? 0 : width; this.height = (height === undefined) ? this.width : height; 
 		if (createFromTopLeft) { 
 			this.left = (x === undefined) ? 0 : x; 
 			this.top = (y === undefined) ? 0 : y; 
 		} else { 
-			this.x = (x === undefined) ? 0 : x; 
-			this.y = (y === undefined) ? 0 : y; 
+			this.x = (x === undefined) ? 0 : x; this.y = (y === undefined) ? 0 : y; 
 		} 
 		this.scale = {x: 1, y: 1}; 
 	} 

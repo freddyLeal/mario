@@ -1,8 +1,6 @@
 function act(deltaTime) { 
 	var i = 0, l = 0; 
 	if (!pause) { 
-
-
 		if (pressing[KEY_RIGHT]) { 
 			player.scale.x = 1; 
 			if (player.vx < 10) { 
@@ -27,10 +25,9 @@ function act(deltaTime) {
 		if (onGround && lastPress === KEY_UP) { 
 			player.vy = -10; 
 		} 
-
-
 		player.x += player.vx; 
 		// player.y += player.vy; 
+		cam.focus(player.x, player.y); 
 	}
 
 	if (lastPress === KEY_ENTER) { 
