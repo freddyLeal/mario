@@ -26,6 +26,8 @@ function act() {
 			player.vy = 10; 
 		} 
 		if (onGround && pressing[KEY_UP] ) { 
+			audioJump.currentTime = 1;
+			audioJump.play();
 			player.vy = -10; 
 		} 
 		// Move player 
@@ -66,6 +68,7 @@ function act() {
 					if (player.intersects(wall[i][j]) && (wall[i][j].type===1||wall[i][j].type===2)) { 
 						if (player.vy > 0) { 
 							player.bottom = wall[i][j].top; 
+							audioJump.pause();
 							onGround = true; 
 						} else { 
 							player.top = wall[i][j].bottom; 
@@ -100,6 +103,9 @@ function act() {
 			player.x = worldWidth; 
 		} 
 		if (player.y > worldHeight) { 
+			audioDead.play();
+			audioSong.pause();
+			audioSong.currentTime = 0;
 			gameover = true; 
 			pause = true; 
 		} 

@@ -41,10 +41,14 @@ mapBlocks = [	[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 sprite = new Image(),
 avance=600,
 avanceN=50,
-pla = 6000,
+pla = 500,
 colors = [ '#5C94FC','#6493EF','#6C91E3','#7490D6','#7C8FCA','#848EBD','#8C8CB0','#948BA4','#9C8A97','#A4888B','#AC877E','#B48671','#BC8465','#C48358','#CC824C','#D4803F','#DC7F32','#E47E26','#EC7D19','#F47B0D','#FC7A00'],
 contAutogenerate = 0,
-autoGenerate = true; 
+autoGenerate = true,
+audioJump = new Audio(),
+audioSong = new Audio(),
+audioDead = new Audio();
+
 
 
 
@@ -205,10 +209,14 @@ function reset(){
 	player.vx = 0; 
 	player.vy = 0; 
 	gameover = false; 
+	audioSong.play();
 }
 
 ///////////// INICIO DE LA APLICACIÓN
 function init() { 
+	audioSong.src = 'songs/01-super-mario-bros.mp3';
+	audioJump.src = 'songs/jump.mp3';
+	audioDead.src = 'songs/15-1-down.mp3';
 	gameover = false;
 	canvas = document.getElementById('canvas'); 
 	ctx = canvas.getContext('2d'); 
@@ -220,6 +228,7 @@ function init() {
 	setMapBlocks(mapBlocks, 14,15);
 	repaint(); 
 	run();
+	audioSong.play();
 } 
 
 window.addEventListener('load', init, false);

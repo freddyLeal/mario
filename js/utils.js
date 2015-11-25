@@ -4,3 +4,8 @@ function fillWallArray(rect){
 	}
 	wall[rect.left].push(rect);
 }
+
+function stopAudio(audio){
+   audio.pause();
+   console.log("entro");
+}
