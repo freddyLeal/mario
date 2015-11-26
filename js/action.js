@@ -1,3 +1,15 @@
+var KEY_ENTER = 13, 
+	KEY_LEFT = 37, 
+	KEY_UP = 38, 
+	KEY_RIGHT = 39, 
+	KEY_DOWN = 40, 
+	KEY_SONGS = 77,//letra M
+	KEY_RESET = 82, //letra R
+	lastPress = null, 
+	pause = false, 
+	pressing = [],
+	onGround = false;
+
 function act() { 
 	var i = 0, l = 0; 
 	if (!pause) { 
@@ -26,13 +38,12 @@ function act() {
 			player.vy = 10; 
 		} 
 		if (onGround && pressing[KEY_UP] ) { 
-			audioJump.currentTime = 1;
-			audioJump.play();
+			jumpSong();
 			player.vy = -10; 
 		} 
 		// Move player 
 		player.x += player.vx; 
-
+		// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 		for (var i = cam.x-avanceN; i < cam.x+avance; i++) {
 			if(wall[i] !== undefined ){
 				for (var j = wall[i].length - 1; j >= 0; j--) {
@@ -47,49 +58,30 @@ function act() {
 				} 
 			}
 		}
-
-
-		// for (i = 0, l = wall.length; i < l; i += 1) { 
-		// 	if (player.intersects(wall[i]) && (wall[i].type===1||wall[i].type===2)) { 
-		// 		if (player.vx > 0) { 
-		// 			player.right = wall[i].left; 
-		// 		} else { 
-		// 			player.left = wall[i].right; 
-		// 		} 
-		// 		player.vx = 0; 
-		// 	} 
-		// } 
 		onGround = false; 
 		player.y += player.vy; 
-
+		// YYYYYYYYYYYYYYYYYYYYYYYYYYY
 		for (var i = cam.x-avanceN; i < cam.x+avance; i++) {
 			if(wall[i] !== undefined ){
 				for (var j = wall[i].length - 1; j >= 0; j--) {
 					if (player.intersects(wall[i][j]) && (wall[i][j].type===1||wall[i][j].type===2)) { 
 						if (player.vy > 0) { 
 							player.bottom = wall[i][j].top; 
-							audioJump.pause();
 							onGround = true; 
-						} else { 
+						} else if(player.vy < 0){ 
 							player.top = wall[i][j].bottom; 
+							if(wall[i][j].type == 2){
+								wall[i].splice(j,1);
+								breakBlockSong();
+							} else {
+								noBreakBlockSong();
+							}
 						} 
 						player.vy = 0; 
 					} 
 				}
 			}
 		}
-
-		// for (i = 0, l = wall.length; i < l; i += 1) { 
-		// 	if (player.intersects(wall[i]) && (wall[i].type===1||wall[i].type===2)) { 
-		// 		if (player.vy > 0) { 
-		// 			player.bottom = wall[i].top; 
-		// 			onGround = true; 
-		// 		} else { 
-		// 			player.top = wall[i].bottom; 
-		// 		} 
-		// 		player.vy = 0; 
-		// 	} 
-		// } 
 		cam.focus(player.x, player.y); 
 		elapsed += 0.05; 
 		if (elapsed > 3600) { 
@@ -103,16 +95,28 @@ function act() {
 			player.x = worldWidth; 
 		} 
 		if (player.y > worldHeight) { 
-			audioDead.play();
-			audioSong.pause();
-			audioSong.currentTime = 0;
+			deadSong();
+			songGameStop();
+			songGameReset();
 			gameover = true; 
 			pause = true; 
 		} 
 	}
 	if (lastPress === KEY_ENTER) { 
 		pause = !pause; 
+		if(pause)
+			pauseSong();
 	} 
+	if (lastPress === KEY_SONGS ){
+		songs = !songs;
+		if(songs)
+			songGame();
+		else 
+			songGameStop();
+	}
+	if (lastPress === KEY_RESET ){
+		reset();
+	}
 } 
 
 
